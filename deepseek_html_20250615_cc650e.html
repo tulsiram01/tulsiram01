@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPulse | Hardware & Software Insights</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --hardware: #f97316;
+            --software: #0ea5e9;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-text {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-visual {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ffffff, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 90%;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .tech-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--primary) 0px, transparent 2px),
+                radial-gradient(circle at 80% 40%, var(--secondary) 0px, transparent 3px),
+                radial-gradient(circle at 30% 70%, var(--hardware) 0px, transparent 4px),
+                radial-gradient(circle at 90% 90%, var(--software) 0px, transparent 3px);
+            background-size: 400px 400px;
+        }
+
+        .animated-cube {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-30deg);
+            animation: rotate 12s infinite linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .front { transform: translateZ(150px); border-color: var(--primary); }
+        .back { transform: translateZ(-150px) rotateY(180deg); border-color: var(--secondary); }
+        .right { transform: rotateY(90deg) translateZ(150px); border-color: var(--hardware); }
+        .left { transform: rotateY(-90deg) translateZ(150px); border-color: var(--software); }
+        .top { transform: rotateX(90deg) translateZ(150px); border-color: var(--success); }
+        .bottom { transform: rotateX(-90deg) translateZ(150px); border-color: #8b5cf6; }
+
+        /* Categories Section */
+        .categories {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        .category-card.hardware:hover {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(249, 115, 22, 0.1));
+        }
+
+        .category-card.software:hover {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(14, 165, 233, 0.1));
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+        }
+
+        .hardware .category-icon {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--hardware);
+            border: 2px solid var(--hardware);
+        }
+
+        .software .category-icon {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--software);
+            border: 2px solid var(--software);
+        }
+
+        .category-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .category-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .category-card .btn {
+            padding: 8px 25px;
+            font-size: 0.9rem;
+        }
+
+        /* Blog Posts */
+        .blog-posts {
+            padding: 100px 0;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .post-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .post-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .post-card:hover .post-image img {
+            transform: scale(1.05);
+        }
+
+        .post-content {
+            padding: 25px;
+        }
+
+        .post-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .hardware-tag {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--hardware);
+        }
+
+        .software-tag {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--software);
+        }
+
+        .post-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .post-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            padding-top: 15px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .newsletter-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscribe-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .subscribe-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-right: none;
+        }
+
+        .subscribe-form input::placeholder {
+            color: var(--gray);
+        }
+
+        .subscribe-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .subscribe-form button {
+            padding: 0 30px;
+            border-radius: 0 8px 8px 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .subscribe-form button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .footer-links i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes rotate {
+            0% { transform: rotateX(-30deg) rotateY(0deg); }
+            100% { transform: rotateX(-30deg) rotateY(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero p {
+                margin: 0 auto 30px;
+            }
+            
+            .hero-btns {
+                justify-content: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subscribe-form {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .subscribe-form input,
+            .subscribe-form button {
+                width: 100%;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="logo-text">TechPulse</div>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="active">Home</a>
+                    <a href="#">Hardware</a>
+                    <a href="#">Software</a>
+                    <a href="#">Reviews</a>
+                    <a href="#">About</a>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline">Sign In</button>
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="tech-grid"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>Discover the Pulse of Technology</h1>
+                    <p>Stay ahead with the latest hardware innovations, software breakthroughs, and in-depth tech analysis from industry experts.</p>
+                    <div class="hero-btns">
+                        <button class="btn btn-primary">Explore Articles</button>
+                        <button class="btn btn-outline">Latest Reviews</button>
+                    </div>
+                </div>
+                <div class="hero-visual fade-in">
+                    <div class="animated-cube">
+                        <div class="cube-face front"><i class="fas fa-microchip"></i></div>
+                        <div class="cube-face back"><i class="fas fa-code"></i></div>
+                        <div class="cube-face right"><i class="fas fa-server"></i></div>
+                        <div class="cube-face left"><i class="fas fa-laptop-code"></i></div>
+                        <div class="cube-face top"><i class="fas fa-robot"></i></div>
+                        <div class="cube-face bottom"><i class="fas fa-mobile-alt"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Explore Tech Categories</h2>
+                <p>Dive deep into the world of hardware and software with our expertly curated content.</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card hardware fade-in">
+                    <div class="category-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Hardware</h3>
+                    <p>Discover the latest in processors, GPUs, motherboards, and cutting-edge hardware innovations that power the future.</p>
+                    <button class="btn btn-outline">Explore Hardware</button>
+                </div>
+                <div class="category-card software fade-in">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Software</h3>
+                    <p>Explore operating systems, applications, development tools, and software breakthroughs transforming digital experiences.</p>
+                    <button class="btn btn-outline">Explore Software</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="blog-posts">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Latest Tech Insights</h2>
+                <p>Stay informed with our in-depth articles and reviews.</p>
+            </div>
+            <div class="posts-grid">
+                <div class="post-card fade-in">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="CPU Technology">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-tag hardware-tag">Hardware</span>
+                        <h3>The Future of CPU Technology: What to Expect in 2024</h3>
+                        <p>We dive deep into the next generation of processors and how they'll revolutionize computing power.</p>
+                        <div class="post-meta">
+                            <span><i class="far fa-clock"></i> 8 min read</span>
+                            <span><i class="far fa-calendar"></i> June 12, 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-card fade-in">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="AI Software">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-tag software-tag">Software</span>
+                        <h3>AI Integration in Modern Software: Revolution or Hype?</h3>
+                        <p>Examining how artificial intelligence is changing software development and user experiences.</p>
+                        <div class="post-meta">
+                            <span><i class="far fa-clock"></i> 10 min read</span>
+                            <span><i class="far fa-calendar"></i> June 5, 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-card fade-in">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gaming Hardware">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-tag hardware-tag">Hardware</span>
+                        <h3>Gaming Hardware Showdown: Top GPUs for 4K Gaming</h3>
+                        <p>We compare the latest graphics cards to determine the ultimate 4K gaming experience.</p>
+                        <div class="post-meta">
+                            <span><i class="far fa-clock"></i> 12 min read</span>
+                            <span><i class="far fa-calendar"></i> May 28, 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content fade-in">
+                <h2>Stay Updated with Tech Trends</h2>
+                <p>Subscribe to our newsletter and never miss the latest hardware reviews, software insights, and tech breakthroughs.</p>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="Enter your email address">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col fade-in">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="logo-text">TechPulse</div>
+                    </div>
+                    <p style="margin: 20px 0; color: var(--gray); line-height: 1.7;">Your trusted source for the latest in hardware innovation and software development. Stay informed with expert analysis and reviews.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col fade-in">
+                    <h4>Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Hardware Reviews</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Software Development</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Tech News</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Gaming Technology</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Mobile Devices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col fade-in">
+                    <h4>Useful Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Write for Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright fade-in">
+                <p>&copy; 2023 TechPulse Blog. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> for tech enthusiasts.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fade-in animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -100px 0px"
+        });
+        
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Add hover effect to category cards
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
